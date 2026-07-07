@@ -29,7 +29,8 @@ pub struct AppConfig {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct BotConfig {
-    #[allow(dead_code)] // reserved for future multi-bot deployment
+    // Reserved for future multi-bot deployment
+    #[allow(dead_code)]
     pub name: String,
     pub mode: String,
     #[serde(default)]
@@ -40,8 +41,9 @@ pub struct BotConfig {
 pub struct SolanaConfig {
     pub rpc_url: String,
     pub ws_url: String,
+    // Reserved for future commitment-level policy
     #[serde(default = "default_commitment")]
-    #[allow(dead_code)] // reserved for future RPC commitment policy
+    #[allow(dead_code)]
     pub commitment: String,
     #[serde(default = "default_rpc_timeout")]
     pub rpc_timeout_secs: u64,
@@ -72,32 +74,33 @@ pub struct RiskConfig {
     pub max_single_investment_sol: f64,
     pub max_daily_loss_sol: f64,
     pub slippage_tolerance_bps: u32,
+    // Reserved for future Jito tip caps and runtime blacklisting
     #[allow(dead_code)]
     pub max_tip_sol: f64,
     #[allow(dead_code)]
     pub blacklist: BlacklistConfig,
 }
 
+// All fields reserved — blacklist filtering not yet wired into the event loop.
 #[derive(Debug, Clone, Deserialize)]
+#[allow(dead_code)]
 pub struct BlacklistConfig {
     #[serde(default)]
-    #[allow(dead_code)]
     pub tokens: Vec<String>,
     #[serde(default)]
-    #[allow(dead_code)]
     pub wallets: Vec<String>,
     #[serde(default)]
-    #[allow(dead_code)]
     pub programs: Vec<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct DexConfig {
+    // Reserved: per-venue enable/disable and TVL filtering
     #[serde(default = "default_enabled_dexes")]
-    #[allow(dead_code)] // reserved for per-venue filtering
+    #[allow(dead_code)]
     pub enabled: Vec<String>,
     #[serde(default)]
-    #[allow(dead_code)] // reserved for pool TVL filtering
+    #[allow(dead_code)]
     pub min_pool_tvl_sol: f64,
     #[serde(default = "default_pool_fee_bps")]
     pub pool_fee_bps: u32,
@@ -118,17 +121,18 @@ pub struct MonitoringConfig {
 /// Pool scanner config — replaces the original Listener + Watchlist
 #[derive(Debug, Clone, Deserialize)]
 pub struct ScannerConfig {
+    // Reserved: scanner loop pacing, pool refresh, and batch size limits
     /// Price difference scan interval (milliseconds)
     #[serde(default = "default_scan_interval_ms")]
-    #[allow(dead_code)] // reserved for scanner loop pacing
+    #[allow(dead_code)]
     pub scan_interval_ms: u64,
     /// Full pool list refresh interval (seconds)
     #[serde(default = "default_pool_refresh_interval_secs")]
-    #[allow(dead_code)] // reserved for pool index refresh
+    #[allow(dead_code)]
     pub pool_refresh_interval_secs: u64,
     /// Max tokens to process per scan
     #[serde(default = "default_max_pools_per_scan")]
-    #[allow(dead_code)] // reserved for batch scanning
+    #[allow(dead_code)]
     pub max_pools_per_scan: usize,
     /// Minimum price difference (basis points)
     #[serde(default = "default_min_price_diff_bps")]

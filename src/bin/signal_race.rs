@@ -85,7 +85,7 @@ impl SignalTracker {
 
 const GRPC_URL: &str = "http://127.0.0.1:10000";
 const WS_URL: &str = "wss://rpc.example.com";  // or use Shyft WS
-const WS_API_KEY: &str = env!("SHYFT_API_KEY");
+const WS_API_KEY: &str = option_env!("SHYFT_API_KEY").unwrap_or("");
 
 // ── Main ──
 

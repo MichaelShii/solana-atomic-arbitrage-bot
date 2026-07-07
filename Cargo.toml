@@ -4,6 +4,15 @@ version = "0.1.0"
 edition = "2021"
 description = "Solana Cross-Venue Atomic Arbitrage Bot"
 
+[workspace]
+members = ["."]
+# programs/arbitrage uses solana-program 1.18 (BPF target, built with cargo-build-sbf)
+# and cannot share a workspace resolution with the client's solana-sdk 2.1.
+# scripts/devnet_smoke has its own solana-sdk version conflict.
+# Build them separately:
+#   (cd programs/arbitrage && cargo build-sbf --features mainnet)
+#   (cd scripts/devnet_smoke && cargo build)
+
 [dependencies]
 solana-sdk = "2.1"
 solana-client = "2.1"

@@ -130,7 +130,7 @@ async fn main() -> anyhow::Result<()> {
             }
             Err(_) => {
                 // Create WSOL ATA + fund it
-                let fund_lamports = (config.risk.max_single_investment_sol * 3.0 * 1e9) as u64;
+                let fund_lamports = crate::executor::atomic::helpers::sol_to_lamports(config.risk.max_single_investment_sol * 3.0);
                 let bh = rpc.get_latest_blockhash().await?;
                 let mut tx = solana_sdk::transaction::Transaction::new_with_payer(
                     &[

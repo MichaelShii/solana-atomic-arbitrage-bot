@@ -268,7 +268,7 @@ pub(crate) async fn run_event_loop(ctx: EventLoopContext) {
                             // If a wrap was submitted (fire-and-forget), skip this
                             // opportunity — WSOL won't arrive in time.
                             if let Some(ref wallet) = wallet {
-                                let investment_lamports = (opp.investment_sol * 1_000_000_000.0) as u64;
+                                let investment_lamports = crate::executor::atomic::helpers::sol_to_lamports(opp.investment_sol);
                                 if ensure_wsol_balance(&rpc, wallet, &config, investment_lamports).await {
                                     continue; // wrap submitted, WSOL not yet available
                                 }
@@ -458,9 +458,9 @@ async fn ensure_wsol_balance(
             return false;
         }
     };
-    let wsol_lamports = (wsol_balance * 1_000_000_000.0) as u64;
+    let wsol_lamports = crate::executor::atomic::helpers::sol_to_lamports(wsol_balance);
 
-    let buffer = (config.risk.max_single_investment_sol * 2.0 * 1_000_000_000.0) as u64;
+    let buffer = crate::executor::atomic::helpers::sol_to_lamports(config.risk.max_single_investment_sol * 2.0);
     let required = investment_lamports.saturating_add(buffer);
 
     if wsol_lamports >= required {

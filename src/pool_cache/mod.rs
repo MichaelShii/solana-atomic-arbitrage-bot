@@ -6,7 +6,7 @@
 //! - AMMv4: extract vault addresses from transaction instructions, read token account balances
 //! - Pump.fun BondingCurve: PDA derivation of bonding curve address, read virtual reserves
 //! - Meteora DLMM: read lb_pair and bin array to get active bin reserves
-#![allow(dead_code)] // AMMv4/CPMM cache functions reserved for venue expansion
+// NOTE: Some AMMv4/CPMM cache functions reserved for future venue expansion.
 
 mod types;
 pub(crate) use types::*;

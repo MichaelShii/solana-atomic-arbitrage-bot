@@ -17,7 +17,7 @@ impl ArbitrageScanner {
     /// Query token prices across all venues (parallel query, reads gRPC cache directly, no local TTL)
     pub(super) async fn query_prices(&self, rpc: &RpcClient, mint: &str) -> Vec<VenuePrice> {
         let mint = mint.to_string();
-        let min_reserve_lamports = (self.min_pool_tvl_sol * 1_000_000_000.0) as u64;
+        let min_reserve_lamports = crate::executor::atomic::helpers::sol_to_lamports(self.min_pool_tvl_sol);
 
         let futures: Vec<_> = self
             .enabled_venues

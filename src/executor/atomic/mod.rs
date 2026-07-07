@@ -11,7 +11,7 @@ mod builders_pump_dlmm;
 mod dlmm_amm_to_pump;
 mod dlmm_bonding_to_pump;
 mod generic_route;
-mod helpers;
+pub(crate) mod helpers;
 mod onchain_router;
 pub(crate) use onchain_router::warmup_tp_cache;
 mod pump_amm_to_dlmm;
@@ -75,7 +75,7 @@ pub async fn build_atomic_arbitrage_tx(
     let user_sol_ata = simulator::ata_addr(&wallet_pubkey, &sol_mint, &sol_token_program);
     let user_meme_ata = simulator::ata_addr(&wallet_pubkey, &meme_mint, &token_program);
 
-    let investment_lamports = (opp.investment_sol * 1_000_000_000.0) as u64;
+    let investment_lamports = helpers::sol_to_lamports(opp.investment_sol);
 
     let (tx_bytes, est_meme, est_sol_out) = match (opp.buy_venue, opp.sell_venue) {
         (Venue::PumpSwapAmm, Venue::MeteoraDlmm) => {

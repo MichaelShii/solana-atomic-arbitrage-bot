@@ -216,8 +216,9 @@ async fn dual_listen_loop(
         let candidates = extract_mint_candidates(&response.value.logs);
         let wl = whitelist.read().await;
         let mint_matched = candidates.iter().find(|c| wl.contains(c));
-
-        if mint_matched.is_none() {
+        let mint_str = match mint_matched {
+            Some(m) => m.clone(),
+            None => {
             filtered += 1;
             metrics.events_filtered.inc();
             // Feed to discovery channel: newly seen candidate mints sent for background batch validation
@@ -232,7 +233,7 @@ async fn dual_listen_loop(
             }
             continue;
         }
-        let mint_str = mint_matched.unwrap().clone();
+        };
         let mint = Some(mint_str.clone());
 
         let program = determine_program(&response.value.logs);

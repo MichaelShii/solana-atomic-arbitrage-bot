@@ -4,7 +4,7 @@
 //! Provides swap instruction building and transaction simulation for cross-pool arbitrage.
 //!
 //! Sub-modules split by venue: ammv4 / cpmm / pumpfun / dlmm
-#![allow(dead_code)] // AMMv4/CPMM builders reserved for venue expansion
+// NOTE: Some AMMv4/CPMM builders are intentionally kept for future venue expansion.
 
 mod ammv4;
 mod bonding_curve;

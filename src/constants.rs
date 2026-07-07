@@ -13,7 +13,10 @@
 //! - Profit thresholds, slippage, etc. → `[risk]` / `[scanner]` sections
 //!
 //! See `.env.example` + `config.example.toml` for the full list.
-#![allow(dead_code)]
+//!
+//! Some constants below carry `#[allow(dead_code)]` because they are
+//! reserved for future venue expansion (AMMv4, Serum, etc.) and are
+//! referenced by code gated behind those features.
 
 // ============================================================
 // PUBLIC PROTOCOL ADDRESSES — Solana mainnet, same for everyone
@@ -109,8 +112,12 @@ pub const PUMPSWAP_RESERVED_FEE_RECIPIENTS: [&str; 8] = [
 pub const PUMPSWAP_BUYBACK_FEE_RECIPIENT: &str = "5YxQFdt3Tr9zJLvkFccqXVUwhdTWJQc1fFg2YPbxvxeD";
 
 // ---- On-Chain Arbitrage Router — Instruction Discriminators ----
-// These are sha256("global:<name>")[..8] of the on-chain program's instructions.
-// They must match programs/arbitrage/src/constants.rs exactly.
+// WARNING: these must match programs/arbitrage/src/constants.rs.
+//   ROUTE_PUMP_TO_DLMM_DISC ←→ programs/arbitrage/src/constants.rs: ROUTE_PUMP_TO_DLMM_DISC
+//   ROUTE_DLMM_TO_PUMP_DISC ←→ programs/arbitrage/src/constants.rs: ROUTE_DLMM_TO_PUMP_DISC
+//   ROUTE_DISC              ←→ programs/arbitrage/src/constants.rs: ROUTE_DISC
+// If you change a discriminator on-chain, update both files or the Router will
+// silently reject all instructions with ARB_BAD_DISCRIMINATOR.
 // Program ID is in config.toml → [execution_routing].onchain_program_id.
 pub const ROUTE_PUMP_TO_DLMM_DISC: [u8; 8] = [0x8b, 0xe8, 0x20, 0x55, 0xc1, 0xb0, 0xc1, 0xe9];
 /// sha256("global:route_dlmm_to_pump")[..8]
@@ -119,8 +126,11 @@ pub const ROUTE_DLMM_TO_PUMP_DISC: [u8; 8] = [0x17, 0x6e, 0xcc, 0x5d, 0xdd, 0x93
 pub const ROUTE_DISC: [u8; 8] = [0x5f, 0x0f, 0x91, 0x02, 0x9a, 0x03, 0x4c, 0xc3];
 
 // ============================================================
-// On-Chain Program Enum Mapping — must match programs/arbitrage
-// Changing these breaks compatibility with your deployed Router.
+// On-Chain Program Enum Mapping
+// WARNING: must match programs/arbitrage/src/constants.rs.
+// These are wire-format discriminants — changing them breaks the
+// client↔program contract and all routes start failing with
+// ARB_UNKNOWN_DEX_PAIR.
 // ============================================================
 
 // ---- DEX kind identifiers (must match on-chain DexKind enum) ----

@@ -162,12 +162,20 @@ pub fn handle(accounts: &[AccountInfo], data: &[u8]) -> ProgramResult {
 /// Identify a DEX by scanning program IDs at known offsets.
 /// CPMM/Whirlpool/DLMM: program at section[0]. PumpSwap: program at section[16].
 fn identify_dex(accounts: &[AccountInfo], base: usize) -> Option<DexKind> {
+    // Bounds check: need at least 1 slot at base, potentially 17 at base+16
+    if base >= accounts.len() {
+        return None;
+    }
     // Try position 0 (CPMM, Whirlpool, DLMM)
     if let Some(kind) = DexKind::from_program_id(accounts[base].key) {
         return Some(kind);
     }
     // Try position 16 (PumpSwap buy and sell both have program at offset 16)
-    if let Some(kind) = DexKind::from_program_id(accounts[base + 16].key) {
+    let probe = base + 16;
+    if probe >= accounts.len() {
+        return None;
+    }
+    if let Some(kind) = DexKind::from_program_id(accounts[probe].key) {
         return Some(kind);
     }
     None

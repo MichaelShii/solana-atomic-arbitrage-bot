@@ -1,6 +1,21 @@
-//! PumpSwap AMM helpers
+//! PumpSwap AMM helpers and common utilities.
 
 use anyhow::Context;
+
+/// Convert a SOL amount to lamports with overflow check.
+/// Uses `u64::MAX` cap rather than wrapping on overflow — prevents
+/// silent truncation of large values in financial calculations.
+#[inline]
+pub(crate) fn sol_to_lamports(sol: f64) -> u64 {
+    let lamports = sol * 1_000_000_000.0;
+    if lamports < 0.0 {
+        0
+    } else if lamports > u64::MAX as f64 {
+        u64::MAX
+    } else {
+        lamports as u64
+    }
+}
 use solana_client::nonblocking::rpc_client::RpcClient;
 use solana_sdk::instruction::{AccountMeta, Instruction};
 use solana_sdk::pubkey::Pubkey;

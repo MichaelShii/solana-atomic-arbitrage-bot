@@ -56,6 +56,10 @@ pub const WHIRLPOOL_CONFIG: Pubkey =
     solana_program::pubkey!("2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ");
 
 // ── Discriminators ───────────────────────────────────────────────────
+// WARNING: ROUTE_PUMP_TO_DLMM_DISC, ROUTE_DLMM_TO_PUMP_DISC, and ROUTE_DISC
+// must match the client-side constants in src/constants.rs. If you change
+// a discriminator here, you MUST update the client copy too, or all TXs
+// will be routed to the wrong instruction handler or rejected.
 
 /// sha256("global:route_pump_to_dlmm")[..8]
 pub const ROUTE_PUMP_TO_DLMM_DISC: [u8; 8] = [0x8b, 0xe8, 0x20, 0x55, 0xc1, 0xb0, 0xc1, 0xe9];
@@ -201,6 +205,9 @@ pub const PUMP_SELL_FEE_PROGRAM: usize = 20;
 pub const PUMP_SELL_FIXED_LEN: usize = 21;
 
 // ── DEX handler kind identifiers ─────────────────────────────────────
+// WARNING: must match client-side DEX_KIND_* constants in src/constants.rs.
+// These are a wire-format enum, not a Rust enum — changing the values
+// without updating both sides breaks generic route dispatch.
 
 pub const DEX_KIND_PUMPSWAP: u8 = 0;
 pub const DEX_KIND_DLMM: u8 = 1;

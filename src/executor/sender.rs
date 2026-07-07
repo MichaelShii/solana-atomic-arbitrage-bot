@@ -339,7 +339,10 @@ mod tests {
 
     /// Test Sender with a trivial SOL transfer that includes a tip.
     /// This isolates our TX format from the complex arbitrage builders.
+    /// WARNING: sends real SOL if BOT_PRIVATE_KEY is set. Run manually:
+    ///   cargo test --release sender::test_sender -- --ignored --nocapture
     #[tokio::test]
+    #[ignore]
     async fn test_sender_with_simple_transfer() {
         // Load the real wallet (requires BOT_PRIVATE_KEY env var).
         let pk_b58 = std::env::var("BOT_PRIVATE_KEY").expect("BOT_PRIVATE_KEY not set");
