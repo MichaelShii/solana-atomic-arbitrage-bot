@@ -89,5 +89,13 @@ pub(crate) async fn discover_lb_pairs_via_gpa(
         let bitmap_ext = parse_optional_pubkey(&data, 248);
         pools.push((pk, active_id, bin_step, base_factor, bitmap_ext));
     }
+    if !pools.is_empty() {
+        log::debug!(
+            "[DLMM GPA] found {} pool(s) for {:.10}..{:.10}",
+            pools.len(),
+            &token_at_88[..10.min(token_at_88.len())],
+            &token_at_120[..10.min(token_at_120.len())],
+        );
+    }
     pools
 }
