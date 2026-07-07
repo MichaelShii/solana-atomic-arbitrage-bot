@@ -1,0 +1,24 @@
+[sources.mevbot_logs]
+type = "file"
+include = ["/var/log/mevbot/*"]
+read_from = "end"
+
+# Parse JSON lines, extract key fields
+[transforms.parse_json]
+type = "remap"
+inputs = ["mevbot_logs"]
+source = '''
+  parsed = parse_json(.message) ?? {}
+  if exists(parsed.level) { .level = parsed.level }
+  if exists(parsed.fields) {
+    if exists(parsed.fields.message) { .message = parsed.fields.message }
+  }
+'''
+
+[sinks.loki]
+type = "loki"
+inputs = ["parse_json"]
+endpoint = "http://loki:3100"
+encoding.codec = "json"
+labels.bot = "mevbot"
+labels.service = "mevbot"

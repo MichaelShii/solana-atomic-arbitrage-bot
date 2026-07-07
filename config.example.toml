@@ -1,0 +1,113 @@
+# ============================================================
+# MEVBot configuration file template
+# Copy to config.toml and fill in real values
+# Environment variables will override values in this file
+# ============================================================
+
+[bot]
+name = "mevbot"
+# Run mode:
+#   "listen"     — Listen only + profit analysis
+#   "arbitrage"  — Cross-pool arbitrage scanning (recommended)
+#   "live"       — Sandwich live trading (deprecated)
+#   "simulate"   — Simulation
+mode = "arbitrage"
+# dry_run = true: build bundle but do not submit to Jito
+dry_run = true
+
+[solana]
+# RPC URL — required; in production, always use a private node
+rpc_url = "https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY"
+# WebSocket URL (can share the Helius endpoint with RPC)
+ws_url = "wss://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY"
+# Transaction confirmation level: processed, confirmed, finalized
+commitment = "processed"
+# RPC request timeout (seconds)
+rpc_timeout_secs = 30
+# HTTP(S) proxy address — required for WSL users going through a proxy
+# e.g. Clash default: "http://127.0.0.1:7897"
+# proxy_url = "http://127.0.0.1:7897"
+
+[risk]
+# Minimum profit threshold (SOL) — do not execute below this value
+min_profit_threshold_sol = 0.0001
+# Maximum single investment (SOL)
+max_single_investment_sol = 1.0
+# Maximum daily loss cap (SOL) — auto-stop when triggered
+max_daily_loss_sol = 5.0
+# Slippage tolerance (basis points, 100 = 1%)
+slippage_tolerance_bps = 100
+# Maximum tip (SOL) — do not bid above this value
+max_tip_sol = 0.1
+
+[risk.blacklist]
+tokens = []
+wallets = []
+programs = []
+
+[dex]
+enabled = ["raydium_cpmm"]
+min_pool_tvl_sol = 10.0
+default_pool_liquidity_sol = 100.0
+pool_fee_bps = 25
+max_victim_trade_ratio = 0.05
+
+[profits]
+tip_percentage = 0.3
+dynamic_tip = false
+estimated_priority_fee_sol = 0.0001
+
+[jito]
+block_engine_url = "https://frankfurt.mainnet.block-engine.jito.wtf"
+bundle_timeout_secs = 30
+max_retries = 3
+
+[listener]
+# gRPC endpoint — required
+grpc_endpoint = "https://your-grpc-endpoint.example.com"
+grpc_x_token = "YOUR_X_TOKEN"
+# WebSocket fallback
+websocket_rpc = "https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY"
+min_swap_amount_usdc = 500.0
+# List of DEX programs to monitor
+enabled_programs = [
+    "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8",   # Raydium AMMv4
+    "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C",     # Raydium CPMM
+    "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA",      # Pump.fun AMM
+    "LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo"       # Meteora DLMM
+]
+prefer_ws = true
+fallback_to_ws = true
+reconnect_max_retries = 0
+reconnect_backoff_ms = 1000
+
+[simulator]
+enabled = true
+# Our wallet address (used for simulateTransaction)
+wallet_pubkey = "YOUR_WALLET_PUBKEY"
+
+[wallet]
+# Solana CLI private key file path (JSON format, contains 64-byte keypair)
+keypair_path = "/path/to/keypair.json"
+# Or use environment variable: export BOT_PRIVATE_KEY="base58_encoded_private_key"
+
+[monitoring]
+metrics_port = 9090
+json_logging = false
+
+[execution_routing]
+# ===== ⚠️ REQUIRED if deploying your own on-chain arbitrage program =====
+# Set to true to route arbitrage through YOUR deployed on-chain Router.
+use_onchain_program = false
+# Percentage of eligible trades routed on-chain (0 = never, 100 = always).
+onchain_traffic_pct = 0
+# Your deployed arbitrage program ID. Replace with real value before enabling.
+onchain_program_id = "YOUR_PROGRAM_ID"
+# Address Lookup Table for TX compression (optional, create via scripts/create_alt.sh).
+# onchain_arb_alt = "YOUR_ALT_ADDRESS"
+
+[arbitrage]
+# Pump.fun protocol fee recipient address (read from on-chain global account; this is the fallback)
+pumpfun_fee_recipient = "CebN5WGQ4jvEPvsVU4EoHEpgT1mKQ7AFUbxmAhvFUWrQ"
+# Stop-loss polling: after bundle submission, monitor buy/sell landing; if buy lands but sell fails, auto stop-loss
+stop_loss_enabled = false

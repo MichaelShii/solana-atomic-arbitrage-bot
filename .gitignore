@@ -1,0 +1,49 @@
+# ── Rust build artifacts ──
+target/
+programs/arbitrage/target/
+
+# ── Environment & secrets ──
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*-keypair.json
+keypair.json
+id.json
+secret*
+
+# ── Local config files (may contain secrets) ──
+config.toml
+config-*.toml
+!.config.example.toml
+
+# ── Deploy artifacts (keypairs, program IDs) ──
+programs/arbitrage/deploy/*.json
+programs/arbitrage/deploy/*.txt
+
+# ── Logs ──
+*.log
+trace-*.json
+
+# ── Archives ──
+*.tar
+*.tar.gz
+*.zip
+
+# ── Python ──
+scripts/__pycache__/
+*.pyc
+__pycache__/
+
+# ── IDE / editor ──
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ── Misc ──
+.codegraph/daemon.pid
+node_modules/
