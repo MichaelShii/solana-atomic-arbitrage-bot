@@ -108,7 +108,9 @@ fn validate(cfg: &AppConfig) -> anyhow::Result<()> {
     if cfg.solana.rpc_url.is_empty() {
         anyhow::bail!("solana.rpc_url is empty — set SOLANA_RPC_URL or config.toml");
     }
-    // ws_url is optional — main.rs auto-derives it from rpc_url when empty
+    if cfg.solana.ws_url.is_empty() {
+        anyhow::bail!("solana.ws_url is empty — set SOLANA_WS_URL or config.toml");
+    }
     if cfg.risk.min_profit_threshold_sol <= 0.0 {
         anyhow::bail!("risk.min_profit_threshold_sol must be > 0");
     }

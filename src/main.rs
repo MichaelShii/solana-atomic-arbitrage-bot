@@ -249,15 +249,7 @@ async fn main() -> anyhow::Result<()> {
     );
 
     // ---- Dual WebSocket listening ----
-    let ws_url = if config.solana.ws_url.is_empty() {
-        config
-            .solana
-            .rpc_url
-            .replace("https://", "wss://")
-            .replace("http://", "ws://")
-    } else {
-        config.solana.ws_url.clone()
-    };
+    let ws_url = config.solana.ws_url.clone();
     let rpc_url = config.solana.rpc_url.clone();
 
     let whitelist = Arc::new(tokio::sync::RwLock::new(whitelist));
