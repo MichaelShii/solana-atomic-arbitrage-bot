@@ -71,6 +71,27 @@ async fn main() -> anyhow::Result<()> {
     tracing_log::LogTracer::init().ok();
 
     info!("MEVBot starting (event-driven + atomic TX)...");
+
+    // Print config summary so the user can verify settings at a glance
+    info!("━━━━ Config Summary ━━━━");
+    info!("Mode: {} | Dry-run: {}", config.bot.mode, config.bot.dry_run);
+    info!("RPC:  {}", config.solana.rpc_url);
+    if !config.solana.fallback_rpc_urls.is_empty() {
+        info!("Fallback RPCs: {} endpoint(s)", config.solana.fallback_rpc_urls.len());
+    }
+    info!("Min profit: {:.6} SOL | Max invest: {:.3} SOL",
+        config.risk.min_profit_threshold_sol, config.risk.max_single_investment_sol);
+    info!("Slippage: {} bps | Priority fee est: {:.6} SOL",
+        config.risk.slippage_tolerance_bps, config.scanner.compute_unit_price_micro_lamports as f64 * config.scanner.compute_unit_limit as f64 / 1_000_000.0 / 1_000_000_000.0 + 0.000_005);
+    if config.execution_routing.use_onchain_program {
+        info!("On-chain router: {} (traffic: {}%)",
+            config.execution_routing.onchain_program_id, config.execution_routing.onchain_traffic_pct);
+    } else {
+        info!("On-chain router: disabled");
+    }
+    info!("DB:    ~/.local/share/mevbot/mevbot.db");
+    info!("━━━━ Starting services ━━━━");
+
     price::init();
     persistence::init_db();
     pool_cache::load_lb_pair_cache();

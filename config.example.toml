@@ -1,7 +1,15 @@
 # ============================================================
 # MEVBot configuration file template
-# Copy to config.toml and fill in real values
-# Environment variables will override values in this file
+# ============================================================
+# Quick start (dry-run, no TX submitted):
+#   cp config.example.toml config.toml
+#   cp .env.example .env   → fill SOLANA_RPC_URL + BOT_PRIVATE_KEY
+#   cargo build --release && ./target/release/mevbot
+#
+# For live trading, set dry_run = false and configure the [risk]
+# and [execution_routing] sections.
+#
+# Environment variables (from .env) override values in this file.
 # ============================================================
 
 [bot]

@@ -93,56 +93,59 @@ WebSocket 监听 (4 个订阅: PumpSwap + DLMM + CPMM + Whirlpool)
 ### 前提条件
 
 - Rust 工具链（见 `rust-toolchain.toml`）
-- Solana CLI（部署链上程序时需要）
-- 一个 Solana RPC 端点（Helius、QuickNode、Shyft、Triton 或公共节点均可）
+- 一个 Solana RPC 端点（Helius/QuickNode/Shyft 免费套餐即可测试）
+- 一个有小额 SOL 的 Solana 钱包（~0.01 SOL 用于测试）
+- Solana CLI（仅部署链上程序时需要）
 
-### 配置与运行
+### 最小配置（dry-run 模式，2 分钟）
+
+此模式只扫描池子并打印套利机会，不会提交任何交易。
 
 ```bash
-# 1. 克隆项目
-git clone <repo-url>
+git clone https://github.com/MichaelShii/solana-atomic-arbitrage-bot.git
 cd solana-atomic-arbitrage-bot
 
-# 2. 从模板创建配置文件
-cp config.example.toml config.toml
 cp .env.example .env
+cp config.example.toml config.toml
 
-# 3. 编辑 config.toml，填入:
-#    - [solana] rpc_url, ws_url
-#    - [wallet] keypair_path (或通过 BOT_PRIVATE_KEY 环境变量)
-#    - [risk] 利润阈值与滑点参数
-#    - [execution_routing] onchain_program_id (如部署了链上程序)
+# 编辑 .env，只需填这 2 个：
+#   SOLANA_RPC_URL=https://你的RPC地址
+#   BOT_PRIVATE_KEY=你的base58私钥
 
-# 4. 编辑 .env，填入:
-#    - SOLANA_RPC_URL
-#    - SOLANA_WS_URL
-#    - BOT_PRIVATE_KEY
-#    - HELIUS_API_KEY (可选, 用于 Sender)
-#    - SHYFT_API_KEY (可选, 用于 gRPC)
-
-# 5. 编译并运行 (建议先 dry-run!)
-cargo build --release --bin mevbot
+cargo build --release
 ./target/release/mevbot
-
-# Devnet 测试
-APP_ENV=devnet cargo run --release --bin mevbot
 ```
 
-在代码库中搜索 `YOUR_` 可以找到所有需要替换的占位符。
+启动后会打印配置摘要 — 确认 RPC 端点和利润阈值正确即可。
+
+### 实盘交易
+
+```toml
+# config.toml
+[bot]
+dry_run = false       # 原来是 true
+
+[risk]
+min_profit_threshold_sol = 0.0001
+max_single_investment_sol = 0.5     # 建议从小额开始
+```
+
+如需低延迟提交，在 `.env` 中添加：`HELIUS_API_KEY=你的key`
+
+### 可选：部署链上 Router
+
+不部署链上程序也可以正常使用。详见 [docs/ONCHAIN_DEPLOYMENT.md](docs/ONCHAIN_DEPLOYMENT.md)。
 
 ### 配置参考
 
 | 变量 | 位置 | 必填 | 说明 |
 |----------|----------|----------|-------------|
-| `SOLANA_RPC_URL` | `.env` 或 `config.toml` `[solana].rpc_url` | 是 | Solana RPC 端点 |
-| `SOLANA_WS_URL` | `.env` 或 `config.toml` `[solana].ws_url` | 是 | Solana WebSocket 端点 |
+| `SOLANA_RPC_URL` | `.env` | 是 | Solana RPC 端点 |
 | `BOT_PRIVATE_KEY` | `.env` | 是 | Base58 编码的 64 字节私钥 |
-| `HELIUS_API_KEY` | `.env` | 否 | Helius API key（Sender + gRPC） |
+| `HELIUS_API_KEY` | `.env` | 否 | Helius API key（低延迟提交） |
 | `SHYFT_API_KEY` | `.env` | 否 | Shyft gRPC x-token |
-| `[wallet].keypair_path` | `config.toml` | 替代方案 | Solana CLI 格式的 keypair JSON |
-| `[wallet].nonce_account` | `config.toml` | 否 | Durable nonce 账户地址 |
-| `[execution_routing].onchain_program_id` | `config.toml` | 否 | 你部署的链上套利程序 ID |
-| `[execution_routing].onchain_arb_alt` | `config.toml` | 否 | Address Lookup Table 地址 |
+| `[wallet].keypair_path` | `config.toml` | 替代方案 | Solana CLI keypair JSON 路径 |
+| `[execution_routing].onchain_program_id` | `config.toml` | 否 | 你部署的链上程序 ID |
 
 ### 什么需要改，什么不需要
 

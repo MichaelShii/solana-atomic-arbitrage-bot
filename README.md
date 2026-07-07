@@ -93,42 +93,61 @@ WebSocket listener (4 subscriptions: PumpSwap + DLMM + CPMM + Whirlpool)
 ### Prerequisites
 
 - Rust toolchain (see `rust-toolchain.toml`)
-- Solana CLI tools (for on-chain program deployment)
-- A Solana RPC endpoint (Helius, QuickNode, Shyft, Triton, or public)
+- A Solana RPC endpoint (free tier from Helius/QuickNode/Shyft works for testing)
+- A Solana wallet with a small amount of SOL (~0.01 for testing)
+- Solana CLI (only needed if deploying the on-chain program)
 
-### Setup
+### Minimal Setup (dry-run, 2 minutes)
+
+This mode scans pools and prints opportunities but never submits transactions. Safe to run with any wallet.
 
 ```bash
-# 1. Clone and enter the project
-git clone <repo-url>
+git clone https://github.com/MichaelShii/solana-atomic-arbitrage-bot.git
 cd solana-atomic-arbitrage-bot
 
-# 2. Create your config files from templates
-cp config.example.toml config.toml
+# Copy templates
 cp .env.example .env
+cp config.example.toml config.toml
 
-# 3. Edit config.toml — fill in:
-#    - [solana] rpc_url, ws_url
-#    - [wallet] keypair_path (or set BOT_PRIVATE_KEY in .env)
-#    - [risk] profit thresholds and slippage
-#    - [execution_routing] onchain_program_id (if you deployed the on-chain program)
+# Edit .env — only these 2 are required:
+#   SOLANA_RPC_URL=https://your-rpc-provider.com
+#   BOT_PRIVATE_KEY=your_base58_private_key
 
-# 4. Edit .env — fill in:
-#    - SOLANA_RPC_URL
-#    - SOLANA_WS_URL
-#    - BOT_PRIVATE_KEY
-#    - HELIUS_API_KEY (optional, for Sender)
-#    - SHYFT_API_KEY (optional, for gRPC)
-
-# 5. Build and run (dry-run first!)
-cargo build --release --bin mevbot
+# Build (5-10 min first time) and run
+cargo build --release
 ./target/release/mevbot
+```
 
-# Devnet testing
+On startup you'll see a config summary — verify your RPC endpoint and profit thresholds are correct.
+
+### Going Live
+
+To actually execute trades, change two settings:
+
+```toml
+# config.toml
+[bot]
+dry_run = false       # was true
+
+[risk]
+min_profit_threshold_sol = 0.0001   # adjust to your tolerance
+max_single_investment_sol = 0.5     # start small
+```
+
+For lower-latency submission, add your Helius API key to `.env`:
+```
+HELIUS_API_KEY=your_key
+```
+
+### Devnet Testing
+
+```bash
 APP_ENV=devnet cargo run --release --bin mevbot
 ```
 
-Search the codebase for `YOUR_` to find all placeholder values that need your real configuration.
+### Optional: Deploy On-Chain Router
+
+The bot works without deploying your own on-chain program. However, deploying the included Router reduces transaction size and improves execution success rate. See [docs/ONCHAIN_DEPLOYMENT.md](docs/ONCHAIN_DEPLOYMENT.md) for instructions.
 
 ### Configuration Reference
 
