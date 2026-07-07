@@ -1,5 +1,6 @@
 # MEVbot — Solana Multi-DEX Atomic Arbitrage
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [中文文档](README.zh-CN.md)
 
 12-route cross-DEX arbitrage bot. Executes buy+sell in a single Solana TX via self-deployed on-chain Router with generic orchestrator, leveraging TX atomicity for all-or-nothing execution.

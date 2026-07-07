@@ -1,8 +1,9 @@
 # MEVbot — Solana 多 DEX 原子套利机器人
 
-12 条路由的跨 DEX 套利机器人。通过自部署的链上 Router 在单笔 Solana 交易内完成买入+卖出，利用交易原子性实现全有或全无执行。
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [English](README.md)
+
+12 条路由的跨 DEX 套利机器人。通过自部署的链上 Router 在单笔 Solana 交易内完成买入+卖出，利用交易原子性实现全有或全无执行。
 
 ## 项目状态
 
