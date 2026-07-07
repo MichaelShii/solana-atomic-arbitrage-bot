@@ -28,10 +28,12 @@ pub(crate) struct WhirlpoolSectionData {
     pub vault_a: Pubkey,  // token_x vault (must be SOL for orchestrator)
     pub vault_b: Pubkey,  // token_y vault (meme)
     pub tick_arrays: [Pubkey; 3],
+    #[allow(dead_code)]
     pub sol_is_x: bool,   // must be true; false means unsupported pool
 }
 
 /// Fixed account count for a Whirlpool section (matches on-chain dex_whirlpool::WHIRLPOOL_FIXED_LEN).
+#[allow(dead_code)]
 const WHIRLPOOL_SECTION_FIXED: usize = 12;
 
 /// Pool data needed to build a CPMM DEX section.

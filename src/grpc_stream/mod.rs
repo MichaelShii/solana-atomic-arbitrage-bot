@@ -30,6 +30,7 @@ pub fn global_cache() -> &'static GeyserPoolCache {
 struct CachedAccount {
     data: Vec<u8>,
     slot: u64,
+    #[allow(dead_code)]
     owner: Vec<u8>,
 }
 
@@ -52,12 +53,14 @@ impl Default for GeyserPoolCache {
 }
 
 impl GeyserPoolCache {
+    #[allow(dead_code)]
     pub fn get(&self, pubkey: &str) -> Option<Vec<u8>> {
         self.accounts.get(pubkey).map(|e| e.data.clone())
     }
     pub fn get_with_slot(&self, pubkey: &str) -> Option<(Vec<u8>, u64)> {
         self.accounts.get(pubkey).map(|e| (e.data.clone(), e.slot))
     }
+    #[allow(dead_code)]
     pub fn get_owner(&self, pubkey: &str) -> Option<Vec<u8>> {
         self.accounts.get(pubkey).map(|e| e.owner.clone())
     }
@@ -68,6 +71,7 @@ impl GeyserPoolCache {
     pub fn latest_slot(&self) -> u64 {
         self.latest_slot.load(Ordering::Relaxed)
     }
+    #[allow(dead_code)]
     pub fn len(&self) -> usize {
         self.accounts.len()
     }
@@ -266,6 +270,7 @@ async fn connect_and_stream(
 
 /// Launch a RabbitStream subscription to discover new token mints at
 /// the shred layer, feeding them to the background discovery task.
+#[allow(dead_code)]
 pub fn spawn_rabbitstream(
     endpoint: String,
     x_token: String,
@@ -295,6 +300,7 @@ pub fn spawn_rabbitstream(
     });
 }
 
+#[allow(dead_code)]
 async fn connect_rabbitstream(
     endpoint: &str,
     x_token: &str,

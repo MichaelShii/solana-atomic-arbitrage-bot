@@ -6,6 +6,7 @@ use solana_client::rpc_client::RpcClient;
 use solana_sdk::instruction::Instruction;
 use solana_sdk::signature::Keypair;
 use solana_sdk::signer::Signer;
+#[allow(deprecated)]
 use solana_sdk::system_instruction;
 
 fn main() -> anyhow::Result<()> {
@@ -28,7 +29,7 @@ fn main() -> anyhow::Result<()> {
     println!("Nonce account candidate: {}", nonce.pubkey());
     println!("Rent-exempt cost: {:.6} SOL", rent as f64 / 1e9);
 
-    let mut ixs: Vec<Instruction> = system_instruction::create_nonce_account(
+    let ixs: Vec<Instruction> = system_instruction::create_nonce_account(
         &wallet.pubkey(),
         &nonce.pubkey(),
         &wallet.pubkey(),

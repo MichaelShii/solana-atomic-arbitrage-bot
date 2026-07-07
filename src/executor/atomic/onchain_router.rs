@@ -12,7 +12,7 @@ use std::str::FromStr;
 
 use crate::config::AppConfig;
 use crate::constants;
-use crate::pool_cache::{self, DlmmPoolReserves};
+use crate::pool_cache::DlmmPoolReserves;
 use crate::simulator;
 use crate::simulator::{
     pumpswap_coin_creator_vault_ata, pumpswap_coin_creator_vault_authority,
@@ -20,7 +20,7 @@ use crate::simulator::{
     pumpswap_user_vol_accumulator_quote_ata,
 };
 
-use super::helpers::{fetch_pumpswap_meta_and_reserves, pick_pumpswap_protocol_fee_recipient};
+use super::helpers::pick_pumpswap_protocol_fee_recipient;
 
 // ── route_pump_to_dlmm: PumpSwap buy → DLMM sell ─────────────────────
 
@@ -460,18 +460,10 @@ fn build_ix_data(
 use solana_client::nonblocking::rpc_client::RpcClient;
 use solana_sdk::address_lookup_table::state::AddressLookupTable;
 use solana_sdk::address_lookup_table::AddressLookupTableAccount;
-use solana_sdk::compute_budget::ComputeBudgetInstruction;
-use solana_sdk::message::v0;
-use solana_sdk::message::VersionedMessage;
-use solana_sdk::signature::Keypair;
-use solana_sdk::transaction::VersionedTransaction;
 use std::collections::HashMap;
 use std::sync::{LazyLock, Mutex};
 use tokio::sync::RwLock;
 
-use super::compute_effective_slippage;
-use super::helpers::{close_wsol_ata_ix, sync_native_ix, system_transfer_ix};
-use crate::arbitrage::ArbitrageOpportunity;
 
 /// DB-backed cache for reserve→token_program mappings. Survives restarts.
 static DB_TP_CACHE: LazyLock<Mutex<HashMap<String, String>>> = LazyLock::new(|| {
@@ -483,7 +475,7 @@ static DB_TP_CACHE: LazyLock<Mutex<HashMap<String, String>>> = LazyLock::new(|| 
 /// Pre-warm the TP cache by batch-reading all known DLMM pool reserve accounts.
 /// Called once at startup after gRPC cache has initial data.
 pub(crate) async fn warmup_tp_cache(rpc: &RpcClient) {
-    use futures::future::join_all;
+    
     let metadata = crate::pool_cache::all_dlmm_metadata();
     if metadata.is_empty() {
         return;

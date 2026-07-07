@@ -13,6 +13,7 @@ use super::{
 use crate::constants::{AMM_V4_PROGRAM, NATIVE_SOL_MINT};
 
 /// AMMv4: find pool state account from transaction account_keys, read vault balances
+#[allow(dead_code)]
 pub async fn fetch_ammv4_now(
     rpc: &RpcClient,
     accounts_json: &str,
@@ -71,6 +72,7 @@ pub async fn fetch_ammv4_now(
 // Internal implementation
 // ============================================================
 
+#[allow(dead_code)]
 async fn discover_and_fetch_ammv4(
     rpc: &RpcClient,
     accounts: &[String],
@@ -125,6 +127,7 @@ async fn discover_and_fetch_ammv4(
 }
 
 /// Extract full pool info from AMMv4 pool state bytes
+#[allow(dead_code)]
 fn parse_ammv4_full_state(
     data: &[u8],
     mint_a: &str,
@@ -138,6 +141,7 @@ fn parse_ammv4_full_state(
         .or_else(|| parse_ammv4_with_mints(data, &mint_b_bytes, &mint_a_bytes, pool_address))
 }
 
+#[allow(dead_code)]
 fn parse_ammv4_with_mints(
     data: &[u8],
     coin_mint_bytes: &[u8; 32],
@@ -171,6 +175,7 @@ fn parse_ammv4_with_mints(
 }
 
 /// Locate vault addresses in AMMv4 pool state bytes
+#[allow(dead_code)]
 fn find_vaults_in_pool_data(
     data: &[u8],
     mint_a: &[u8; 32],
@@ -206,6 +211,7 @@ fn find_vaults_in_pool_data(
 }
 
 /// Read balances of two vault token accounts, compute SOL-equivalent TVL
+#[allow(dead_code)]
 async fn fetch_ammv4_vaults(
     rpc: &RpcClient,
     vault_a: &str,

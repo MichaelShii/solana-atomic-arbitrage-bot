@@ -56,7 +56,7 @@ pub(crate) async fn run_event_loop(ctx: EventLoopContext) {
         let active_whitelist = whitelist.clone();
         let active_scanner = scanner.clone();
         let active_rpc_pool = rpc_pool.clone();
-        let active_metrics = metrics.clone();
+        let _active_metrics = metrics.clone();
         let active_wallet = wallet.clone();
         let active_config = config.clone();
         tokio::spawn(async move {

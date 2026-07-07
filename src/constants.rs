@@ -25,6 +25,7 @@
 
 // ---- DEX Program IDs ----
 pub const CPMM_PROGRAM: &str = "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C";
+#[allow(dead_code)]
 pub const AMM_V4_PROGRAM: &str = "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8";
 /// PumpSwap AMM program — graduated token pools (Pool creation, swap, migrate)
 pub const PUMPFUN_AMM_PROGRAM: &str = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA";
@@ -76,6 +77,7 @@ pub const DLMM_SWAP2_DISCRIMINATOR: [u8; 8] = [0x41, 0x4b, 0x3f, 0x4c, 0xeb, 0x5
 /// DLMM event authority — global address (same across all pools), verified from real Swap2 txs.
 pub const DLMM_EVENT_AUTHORITY: &str = "D1ZN9Wj1fRSUQfCjhvnu1hqDMT7hzjzBBpi12nVniYD6";
 /// DLMM oracle (PDA seed = "oracle", derived from lb_pair).
+#[allow(dead_code)]
 pub const DLMM_ORACLE: &str = "5DmhHY4YTvqRMTaL1tPBWY5S8J4oCLq3sCMbvrvnZKu8";
 /// PumpSwap AMM event authority PDA (seed = "__event_authority")
 pub const PUMPSWAP_EVENT_AUTHORITY: &str = "GS4CU59F31iL7aR2Q8zVS8DRrcRnXX1yjQ66TqNVQnaR";

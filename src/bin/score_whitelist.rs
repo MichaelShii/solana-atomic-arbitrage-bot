@@ -16,6 +16,7 @@ macro_rules! info  { ($($t:tt)*) => { println!($($t)*) }; }
 macro_rules! warn  { ($($t:tt)*) => { eprintln!("[WARN] {}", format!($($t)*)) }; }
 
 const TOP_N: usize = 200;
+#[allow(dead_code)]
 const MIN_SOL_LIQUIDITY: f64 = 5.0; // minimum pool SOL depth
 const USDC_MINT: &str = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
 const SOL_MINT: &str = "So11111111111111111111111111111111111111112";

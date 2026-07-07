@@ -23,10 +23,8 @@ mod simulator;
 mod whitelist;
 
 use log::{error, info, warn};
-use solana_client::nonblocking::rpc_client::RpcClient;
 use solana_sdk::pubkey::Pubkey;
 use solana_sdk::signer::Signer;
-use solana_sdk::transaction::Transaction;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Duration;

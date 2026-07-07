@@ -6,6 +6,7 @@ use super::{checked_estimate_swap_output, estimate_swap_output};
 
 /// Estimate PumpSwap AMM buy output given constant-product reserves.
 /// `fee_bps` is the protocol fee in basis points (default 25 = 0.25%).
+#[allow(dead_code)]
 pub fn estimate_pumpswap_buy_output(
     quote_amount_in: u64,
     quote_reserves: u64,
@@ -21,6 +22,7 @@ pub fn estimate_pumpswap_buy_output(
 }
 
 /// Estimate PumpSwap AMM sell output (SOL received for tokens).
+#[allow(dead_code)]
 pub fn estimate_pumpswap_sell_output(
     base_amount_in: u64,
     base_reserves: u64,

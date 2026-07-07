@@ -15,14 +15,17 @@ use solana_sdk::pubkey::Pubkey;
 use std::str::FromStr;
 use std::sync::Mutex;
 
+#[allow(dead_code)]
 const NONCE_ACCOUNT_SIZE: usize = 80;
 
 /// Cached nonce data — avoid re-reading the nonce account on every TX build.
 ///
 /// The nonce only changes when our TX lands (advanceNonce bumps the value),
 /// so we can reuse the cached data across failed/scrapped attempts.
+#[allow(dead_code)]
 static NONCE_CACHE: Mutex<Option<(Pubkey, NonceData)>> = Mutex::new(None);
 
+#[allow(dead_code)]
 pub struct NonceData {
     pub blockhash: Hash,
     pub nonce_value: u64,
@@ -30,6 +33,7 @@ pub struct NonceData {
 
 impl NonceData {
     /// Parse from raw nonce account data bytes.
+    #[allow(dead_code)]
     pub fn parse(data: &[u8]) -> Option<Self> {
         if data.len() < NONCE_ACCOUNT_SIZE {
             return None;
@@ -52,6 +56,7 @@ impl NonceData {
 ///
 /// Cached data is valid until the nonce is advanced (i.e. until our TX lands).
 /// On TX failure the nonce stays unchanged, so the cache remains fresh.
+#[allow(dead_code)]
 pub async fn cached_nonce_data(
     rpc: &RpcClient,
     nonce_account: &Pubkey,
@@ -80,6 +85,7 @@ pub async fn cached_nonce_data(
 
 /// Invalidate the nonce cache (called after successful TX submission).
 /// The next TX build will re-read the nonce account from RPC.
+#[allow(dead_code)]
 pub fn invalidate_nonce_cache() {
     let mut cache = NONCE_CACHE.lock().unwrap();
     *cache = None;
@@ -87,6 +93,7 @@ pub fn invalidate_nonce_cache() {
 }
 
 /// Fetch nonce account data from RPC (uncached).
+#[allow(dead_code)]
 pub async fn fetch_nonce_data(rpc: &RpcClient, nonce_account: &Pubkey) -> anyhow::Result<NonceData> {
     let account = rpc
         .get_account(nonce_account)
@@ -100,6 +107,7 @@ pub async fn fetch_nonce_data(rpc: &RpcClient, nonce_account: &Pubkey) -> anyhow
 ///
 /// Must be the first instruction in the transaction so the nonce
 /// is consumed before any swap operations.
+#[allow(dead_code)]
 pub fn build_advance_nonce_ix(nonce_account: &Pubkey, authority: &Pubkey) -> Instruction {
     let system_program = Pubkey::from_str("11111111111111111111111111111111").unwrap();
     let recent_blockhashes =

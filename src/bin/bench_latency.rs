@@ -82,7 +82,7 @@ impl WsTracker {
                     };
                     let key = format!("{faster}>{slower}");
                     *self.matches.entry(Box::leak(key.into_boxed_str())).or_insert(0) += 1;
-                    let key2 = format!("{faster}_ms");
+                    let _key2 = format!("{faster}_ms");
                     // Accumulate min/max via separate counters
                     info!(
                         "[WS MATCH] sig={} {faster} ahead of {slower} by {delta_ms}ms",
@@ -104,7 +104,7 @@ impl WsTracker {
             let key = entry.key();
             let val = entry.value();
             if key.ends_with("_ms") { continue; }
-            let count_key = format!("{key}_ms");
+            let _count_key = format!("{key}_ms");
             info!("  head-to-head {key}: {val} times");
         }
     }

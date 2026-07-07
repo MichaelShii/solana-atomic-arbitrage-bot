@@ -2,11 +2,9 @@
 
 use anyhow::Context;
 use solana_sdk::compute_budget::ComputeBudgetInstruction;
-use solana_sdk::instruction::Instruction;
 use solana_sdk::message::{v0, VersionedMessage};
 use solana_sdk::pubkey::Pubkey;
 use solana_sdk::signature::Keypair;
-use solana_sdk::signer::Signer;
 use solana_sdk::transaction::VersionedTransaction;
 use std::str::FromStr;
 
@@ -20,7 +18,6 @@ use crate::simulator;
 
 use super::generic_route::*;
 use super::onchain_router::get_alt;
-use super::compute_effective_slippage;
 
 
 #[allow(clippy::too_many_arguments)]
@@ -81,7 +78,7 @@ pub(crate) async fn build_onchain_dlmm_to_whirlpool_tx(
         meme_token_program, sol_token_program, config,
     ).await?;
 
-    let mut ixs = vec![
+    let ixs = vec![
         ComputeBudgetInstruction::set_compute_unit_price(config.scanner.compute_unit_price_micro_lamports),
         ComputeBudgetInstruction::set_compute_unit_limit(config.scanner.compute_unit_limit),
         simulator::create_ata_idempotent_ix_v2(wallet_pubkey, user_meme_ata, wallet_pubkey, meme_mint, meme_token_program),
@@ -150,7 +147,7 @@ pub(crate) async fn build_onchain_whirlpool_to_dlmm_tx(
         meme_token_program, sol_token_program, config,
     ).await?;
 
-    let mut ixs = vec![
+    let ixs = vec![
         ComputeBudgetInstruction::set_compute_unit_price(config.scanner.compute_unit_price_micro_lamports),
         ComputeBudgetInstruction::set_compute_unit_limit(config.scanner.compute_unit_limit),
         simulator::create_ata_idempotent_ix_v2(wallet_pubkey, user_meme_ata, wallet_pubkey, meme_mint, meme_token_program),
@@ -207,7 +204,7 @@ pub(crate) async fn build_onchain_pump_to_whirlpool_tx(
         None, None, Some(&pd), None, None, Some(&wd), None, None,
         pd.remaining_count, 0, true, meme_token_program, sol_token_program, config,
     ).await?;
-    let mut ixs = vec![
+    let ixs = vec![
         ComputeBudgetInstruction::set_compute_unit_price(config.scanner.compute_unit_price_micro_lamports),
         ComputeBudgetInstruction::set_compute_unit_limit(config.scanner.compute_unit_limit),
         simulator::create_ata_idempotent_ix_v2(wallet_pubkey, user_meme_ata, wallet_pubkey, meme_mint, meme_token_program),
@@ -261,7 +258,7 @@ pub(crate) async fn build_onchain_whirlpool_to_pump_tx(
         None, Some(&wd), None, None, None, None, Some(&pd), None,
         0, pd.remaining_count, true, meme_token_program, sol_token_program, config,
     ).await?;
-    let mut ixs = vec![
+    let ixs = vec![
         ComputeBudgetInstruction::set_compute_unit_price(config.scanner.compute_unit_price_micro_lamports),
         ComputeBudgetInstruction::set_compute_unit_limit(config.scanner.compute_unit_limit),
         simulator::create_ata_idempotent_ix_v2(wallet_pubkey, user_meme_ata, wallet_pubkey, meme_mint, meme_token_program),
@@ -317,7 +314,7 @@ pub(crate) async fn build_onchain_cpmm_to_dlmm_tx(
         Some(&cd), None, None, None, None, None, None, Some(&dd),
         0, dd.bin_count, true, meme_token_program, sol_token_program, config,
     ).await?;
-    let mut ixs = vec![
+    let ixs = vec![
         ComputeBudgetInstruction::set_compute_unit_price(config.scanner.compute_unit_price_micro_lamports),
         ComputeBudgetInstruction::set_compute_unit_limit(config.scanner.compute_unit_limit),
         simulator::create_ata_idempotent_ix_v2(wallet_pubkey, user_meme_ata, wallet_pubkey, meme_mint, meme_token_program),
@@ -374,7 +371,7 @@ pub(crate) async fn build_onchain_dlmm_to_cpmm_tx(
         None, None, None, Some(&dd), Some(&cd), None, None, None,
         dd.bin_count, 0, sol_is_x, meme_token_program, sol_token_program, config,
     ).await?;
-    let mut ixs = vec![
+    let ixs = vec![
         ComputeBudgetInstruction::set_compute_unit_price(config.scanner.compute_unit_price_micro_lamports),
         ComputeBudgetInstruction::set_compute_unit_limit(config.scanner.compute_unit_limit),
         simulator::create_ata_idempotent_ix_v2(wallet_pubkey, user_meme_ata, wallet_pubkey, meme_mint, meme_token_program),

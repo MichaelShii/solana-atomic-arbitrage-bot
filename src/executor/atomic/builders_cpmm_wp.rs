@@ -6,7 +6,6 @@ use solana_sdk::instruction::Instruction;
 use solana_sdk::message::{v0, VersionedMessage};
 use solana_sdk::pubkey::Pubkey;
 use solana_sdk::signature::Keypair;
-use solana_sdk::signer::Signer;
 use solana_sdk::transaction::VersionedTransaction;
 use std::str::FromStr;
 
@@ -20,7 +19,6 @@ use crate::simulator;
 
 use super::generic_route::*;
 use super::onchain_router::get_alt;
-use super::compute_effective_slippage;
 
 // ── Full TX builders for CPMM / Whirlpool routes ────────────────────────
 
@@ -379,7 +377,7 @@ pub(crate) async fn build_onchain_pump_to_cpmm_tx(
         meme_token_program, sol_token_program, config,
     ).await?;
 
-    let mut ixs = vec![
+    let ixs = vec![
         ComputeBudgetInstruction::set_compute_unit_price(config.scanner.compute_unit_price_micro_lamports),
         ComputeBudgetInstruction::set_compute_unit_limit(config.scanner.compute_unit_limit),
         simulator::create_ata_idempotent_ix_v2(wallet_pubkey, user_meme_ata, wallet_pubkey, meme_mint, meme_token_program),
@@ -443,7 +441,7 @@ pub(crate) async fn build_onchain_cpmm_to_pump_tx(
         meme_token_program, sol_token_program, config,
     ).await?;
 
-    let mut ixs = vec![
+    let ixs = vec![
         ComputeBudgetInstruction::set_compute_unit_price(config.scanner.compute_unit_price_micro_lamports),
         ComputeBudgetInstruction::set_compute_unit_limit(config.scanner.compute_unit_limit),
         simulator::create_ata_idempotent_ix_v2(wallet_pubkey, user_meme_ata, wallet_pubkey, meme_mint, meme_token_program),

@@ -64,6 +64,7 @@ impl RpcPool {
     }
 
     /// Health check an endpoint by calling get_slot.
+    #[allow(dead_code)]
     pub async fn health_check(&self) -> bool {
         let client = self.current();
         match tokio::time::timeout(Duration::from_secs(5), client.get_slot()).await {

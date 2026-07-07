@@ -2,10 +2,6 @@
 //!
 //! These methods are in a separate `impl` block to keep scanner.rs under 350 lines.
 
-use std::collections::HashMap;
-use std::sync::LazyLock;
-use std::time::Instant;
-use tokio::sync::RwLock;
 
 use solana_client::nonblocking::rpc_client::RpcClient;
 

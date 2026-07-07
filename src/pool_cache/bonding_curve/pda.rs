@@ -17,6 +17,7 @@ use solana_sdk::pubkey::Pubkey;
 use super::super::{BondingCurveState, PumpVenueKind};
 
 /// Read u64 from byte slice at offset (little-endian)
+#[allow(dead_code)]
 fn read_u64_at(data: &[u8], off: usize) -> u64 {
     u64::from_le_bytes(data[off..off + 8].try_into().unwrap_or([0; 8]))
 }

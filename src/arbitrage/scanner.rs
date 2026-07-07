@@ -78,6 +78,7 @@ impl ArbitrageScanner {
     }
 
     /// Pure RPC check for single venue (bypasses gRPC cache). Used exclusively for removal decisions, avoids progressive caching.
+    #[allow(dead_code)]
     pub async fn is_single_venue_rpc(&self, rpc: &RpcClient, mint: &str) -> bool {
         // Call query_prices directly but force each venue to use RPC
         // Currently query_prices has an internal TTL cache, but pool_cache falls back to RPC
@@ -90,6 +91,7 @@ impl ArbitrageScanner {
     }
 
     /// Scan and return whether single venue (alongside opportunity list). Avoids two RPC calls from scan + check.
+    #[allow(dead_code)]
     pub async fn scan_and_check_single(
         &self,
         rpc: &RpcClient,

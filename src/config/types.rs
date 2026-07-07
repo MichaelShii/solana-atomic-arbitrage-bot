@@ -62,9 +62,11 @@ pub struct SolanaConfig {
     pub sender_enabled: bool,
     /// Use SWQOS-only routing (no Jito auction). Tip drops from 0.0002 → 0.000005 SOL.
     #[serde(default = "default_true")]
+    #[allow(dead_code)]
     pub sender_swqos_only: bool,
     /// Sender regional endpoint for low-latency TX submission.
     #[serde(default = "default_sender_endpoint")]
+    #[allow(dead_code)]
     pub sender_endpoint: String,
 }
 
@@ -211,6 +213,7 @@ pub struct WalletConfig {
     /// When set, TXs use durable nonce instead of latest blockhash,
     /// eliminating getLatestBlockhash RPC from the critical path.
     #[serde(default)]
+    #[allow(dead_code)]
     pub nonce_account: Option<String>,
 }
 

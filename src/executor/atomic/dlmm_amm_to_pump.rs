@@ -52,7 +52,7 @@ pub(crate) async fn build_dlmm_buy_pumpswap_amm_sell(
     let cu_cost_sol = super::compute_cu_cost_sol(&config.scanner);
 
     let sol_is_x = dlmm.token_x_mint == simulator::NATIVE_SOL_MINT;
-    let (sol_reserve, meme_reserve_for_buy) = if sol_is_x {
+    let (sol_reserve, _meme_reserve_for_buy) = if sol_is_x {
         (dlmm.reserve_x, dlmm.reserve_y)
     } else {
         (dlmm.reserve_y, dlmm.reserve_x)

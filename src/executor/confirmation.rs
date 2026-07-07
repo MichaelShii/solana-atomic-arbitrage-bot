@@ -224,7 +224,7 @@ async fn extract_actual_pnl(
     for attempt in 0u32..3u32 {
         match rpc.get_transaction_with_config(signature, config).await {
             Ok(t) => { tx = Some(t); break; }
-            Err(e) if attempt < 2 => {
+            Err(_e) if attempt < 2 => {
                 tokio::time::sleep(std::time::Duration::from_secs(2u64 << attempt)).await;
             }
             Err(e) => {

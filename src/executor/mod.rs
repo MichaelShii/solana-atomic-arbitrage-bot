@@ -14,4 +14,3 @@ pub use atomic::{build_atomic_arbitrage_tx, simulate_atomic_tx, submit_atomic_tx
 pub use confirmation::{spawn_confirmation_task, PendingConfirmation};
 pub use jito::submit_via_jito;
 pub use rpc_pool::RpcPool;
-pub use sender::submit_via_sender;

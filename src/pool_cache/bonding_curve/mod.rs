@@ -24,6 +24,7 @@ use pda::read_pumpswap_pool;
 ///
 /// Used before transaction submission (R2-M01) to ensure pricing is based on
 /// current vault balances, not a 10-second-old cache entry.
+#[allow(dead_code)]
 pub async fn fetch_pumpswap_reserves_fresh(
     rpc: &RpcClient,
     pool: &Pubkey,

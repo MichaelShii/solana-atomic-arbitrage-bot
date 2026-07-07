@@ -108,6 +108,7 @@ impl Whitelist {
 
     /// Remove single-venue token (pure deletion, does not go into blacklist).
     /// Can be re-added next time discovery detects dual pools.
+    #[allow(dead_code)]
     pub fn remove_single_venue(&mut self, mint: &str) -> bool {
         if self.blacklisted.contains(mint) {
             return false; // Manually blacklisted tokens are untouched

@@ -173,8 +173,10 @@ pub struct DlmmBin {
     /// Token Y amount (v1 + v2). For v2, prefer reserve_y for swap calculations.
     pub amount_y: u64,
     /// Token X reserve (v2 only, 0 for v1). Used by the DLMM swap program.
+    #[allow(dead_code)]
     pub reserve_x: u64,
     /// Token Y reserve (v2 only, 0 for v1). Used by the DLMM swap program.
+    #[allow(dead_code)]
     pub reserve_y: u64,
 }
 
@@ -234,6 +236,7 @@ pub(crate) static DISCOVERED_CPMM_POOLS: LazyLock<RwLock<HashMap<String, CacheEn
 
 /// AMMv4 cache: Key = "mint0:mint1" (sorted) → Some(SOL liquidity)
 /// TTL: 30s, after timeout returns None triggering re-fetch
+#[allow(dead_code)]
 pub(crate) static AMMV4_CACHE: LazyLock<RwLock<HashMap<String, CacheEntry<Option<f64>>>>> =
     LazyLock::new(|| RwLock::new(HashMap::new()));
 

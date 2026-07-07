@@ -65,6 +65,7 @@ pub fn pumpswap_pool_v2_pda(base_mint: &Pubkey) -> Pubkey {
 }
 
 /// Correct Pool PDA: ["pool", 0u16::LE, creator, base_mint, SOL_mint] @ pAMMBay6oceH
+#[allow(dead_code)]
 pub fn pumpswap_pool_pda(creator: &Pubkey, base_mint: &Pubkey) -> Pubkey {
     let program = Pubkey::from_str(PUMPFUN_AMM_PROGRAM).unwrap();
     let sol_mint = Pubkey::from_str(super::NATIVE_SOL_MINT).unwrap();

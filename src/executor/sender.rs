@@ -7,13 +7,12 @@ use solana_sdk::{
     message::{v0, VersionedMessage},
     pubkey::Pubkey,
     signature::Keypair,
-    signer::Signer,
-    system_instruction,
     transaction::VersionedTransaction,
 };
 use std::str::FromStr;
 
 /// Helius designated tip accounts (fetched from Sender validation errors).
+#[allow(dead_code)]
 const TIP_ACCOUNTS: &[&str] = &[
     "4ACfpUFoaSD9bfPdeu6DBt89gB6ENTeHBXCAi87NhDEE",
     "D2L6yPZ2FmmmTKPgzaMKdhu6EWZcTpLy1Vhx8uvZe7NZ",
@@ -28,13 +27,16 @@ const TIP_ACCOUNTS: &[&str] = &[
     "D1Mc6j9xQWgR1o1Z7yU5nVVXFQiAYx7FG9AW1aVfwrUM",
 ];
 
+#[allow(dead_code)]
 const MIN_TIP_LAMPORTS_SWQOS: u64 = 5_000;
+#[allow(dead_code)]
 const MIN_TIP_LAMPORTS_DUAL: u64 = 200_000;
 
 /// Decompile v0 compiled instructions → high-level `Instruction` objects.
 ///
 /// `all_keys` combines static account_keys with ALT-resolved addresses so
 /// every account index resolves correctly.
+#[allow(dead_code)]
 fn decompile_instructions(v0_msg: &v0::Message, all_keys: &[Pubkey]) -> Vec<Instruction> {
     v0_msg
         .instructions
@@ -60,6 +62,7 @@ fn decompile_instructions(v0_msg: &v0::Message, all_keys: &[Pubkey]) -> Vec<Inst
         .collect()
 }
 
+#[allow(dead_code)]
 async fn add_tip_and_resign(
     wallet: &Keypair,
     tx_bytes: &[u8],
@@ -196,6 +199,7 @@ async fn fetch_alt_via_rpc(
 }
 
 /// Used internally by the submit-time path (uses env var RPC).
+#[allow(dead_code)]
 async fn get_alt_accounts(
     lookups: &[v0::MessageAddressTableLookup],
 ) -> Vec<solana_sdk::message::AddressLookupTableAccount> {
@@ -228,6 +232,7 @@ async fn get_alt_accounts(
     results
 }
 
+#[allow(dead_code)]
 async fn fetch_alt_account(alt_address: &Pubkey) -> Vec<Pubkey> {
     // ALT account layout: 32-byte header (LookupTableMeta) + addresses.
     // LookupTableMeta: deactivation_slot(u64) + last_extended_slot(u64)
@@ -257,6 +262,7 @@ async fn fetch_alt_account(alt_address: &Pubkey) -> Vec<Pubkey> {
     }
 }
 
+#[allow(dead_code)]
 pub async fn submit_via_sender(
     wallet: &Keypair,
     tx_bytes: &[u8],

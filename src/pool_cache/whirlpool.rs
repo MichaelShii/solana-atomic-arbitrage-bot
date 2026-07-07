@@ -68,6 +68,7 @@ const TICK_CURRENT_INDEX_OFF: usize = 81;
 const FEE_RATE_OFF: usize = 45;
 
 /// Sync fetch + write cache, return SOL-equivalent liquidity (DLMM)
+#[allow(dead_code)]
 pub async fn fetch_whirlpool_now(rpc: &RpcClient, t0: &str, t1: &str) -> Option<f64> {
     let key = cache_key(t0, t1);
     if let Some(entry) = WHIRLPOOL_CACHE.read().ok()?.get(&key) {

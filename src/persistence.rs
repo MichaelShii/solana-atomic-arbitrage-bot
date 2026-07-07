@@ -94,6 +94,7 @@ pub fn whitelist_upsert(mint: &str, category: &str) {
 }
 
 /// Directly delete mint from whitelist (not blacklist, can be re-discovered by discovery)
+#[allow(dead_code)]
 pub fn whitelist_delete(mint: &str) {
     let db = DB.lock().expect("db lock");
     if let Err(e) = db.execute(

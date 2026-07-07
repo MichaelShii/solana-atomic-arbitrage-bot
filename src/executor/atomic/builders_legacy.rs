@@ -6,7 +6,6 @@ use solana_sdk::instruction::Instruction;
 use solana_sdk::message::{v0, VersionedMessage};
 use solana_sdk::pubkey::Pubkey;
 use solana_sdk::signature::Keypair;
-use solana_sdk::signer::Signer;
 use solana_sdk::transaction::VersionedTransaction;
 use std::str::FromStr;
 
@@ -19,7 +18,7 @@ use crate::pool_cache;
 use crate::simulator;
 
 use super::compute_effective_slippage;
-use super::helpers::{fetch_pumpswap_meta_and_reserves, pick_pumpswap_protocol_fee_recipient};
+use super::helpers::fetch_pumpswap_meta_and_reserves;
 use super::onchain_router::{get_alt, build_route_pump_to_dlmm, build_route_dlmm_to_pump};
 
 pub(crate) async fn build_onchain_pump_to_dlmm_tx(
@@ -28,10 +27,10 @@ pub(crate) async fn build_onchain_pump_to_dlmm_tx(
     wallet: &Keypair,
     config: &AppConfig,
     rpc: &RpcClient,
-    sol_mint: &Pubkey,
+    _sol_mint: &Pubkey,
     meme_mint: &Pubkey,
     token_program: &Pubkey,
-    sol_token_program: &Pubkey,
+    _sol_token_program: &Pubkey,
     user_sol_ata: &Pubkey,
     _user_meme_ata: &Pubkey, // recomputed inside after TP override
     investment_lamports: u64,
@@ -216,10 +215,10 @@ pub(crate) async fn build_onchain_dlmm_to_pump_tx(
     wallet: &Keypair,
     config: &AppConfig,
     rpc: &RpcClient,
-    sol_mint: &Pubkey,
+    _sol_mint: &Pubkey,
     meme_mint: &Pubkey,
     token_program: &Pubkey,
-    sol_token_program: &Pubkey,
+    _sol_token_program: &Pubkey,
     user_sol_ata: &Pubkey,
     _user_meme_ata: &Pubkey, // recomputed inside after TP override
     investment_lamports: u64,
@@ -262,7 +261,7 @@ pub(crate) async fn build_onchain_dlmm_to_pump_tx(
 
     // Pricing: DLMM buy
     let sol_is_x = dlmm.token_x_mint == constants::NATIVE_SOL_MINT;
-    let (sol_reserve, meme_reserve_for_buy) = if sol_is_x {
+    let (sol_reserve, _meme_reserve_for_buy) = if sol_is_x {
         (dlmm.reserve_x, dlmm.reserve_y)
     } else {
         (dlmm.reserve_y, dlmm.reserve_x)

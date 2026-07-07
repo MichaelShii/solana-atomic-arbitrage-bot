@@ -39,6 +39,7 @@ use pump_bonding_to_dlmm::build_pumpswap_buy_dlmm_sell;
 /// Build atomic arbitrage TX: buy venue → sell venue.
 /// Estimate data passed from builder to confirmation for PnL comparison.
 pub struct TxEstimate {
+    #[allow(dead_code)]
     pub invest_sol: f64,
     pub est_meme: u64,
     pub est_sol_out: u64,
@@ -238,9 +239,10 @@ const JITO_TIP_LAMPORTS: u64 = 100_000; // 0.0001 SOL
 async fn inject_jito_tip(
     tx_bytes: &[u8],
     wallet: &Keypair,
-    config: &AppConfig,
+    _config: &AppConfig,
     rpc: &RpcClient,
 ) -> anyhow::Result<Vec<u8>> {
+    #[allow(deprecated)]
     use solana_sdk::{
         instruction::Instruction,
         message::{v0, VersionedMessage},
@@ -422,7 +424,7 @@ pub async fn submit_atomic_tx(
     rpc: &RpcClient,
     tx_bytes: &[u8],
     min_slot: u64,
-    last_valid_block_height: u64,
+    _last_valid_block_height: u64,
 ) -> anyhow::Result<String> {
     anyhow::ensure!(
         min_slot > 0,
