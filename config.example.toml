@@ -26,8 +26,8 @@ dry_run = true
 [solana]
 # RPC URL — required; in production, always use a private node
 rpc_url = "https://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY"
-# WebSocket URL (can share the Helius endpoint with RPC)
-ws_url = "wss://mainnet.helius-rpc.com/?api-key=YOUR_API_KEY"
+# WebSocket URL — optional. Leave empty to auto-derive from rpc_url.
+ws_url = ""
 # Transaction confirmation level: processed, confirmed, finalized
 commitment = "processed"
 # RPC request timeout (seconds)

@@ -40,6 +40,10 @@ pub struct BotConfig {
 #[derive(Debug, Clone, Deserialize)]
 pub struct SolanaConfig {
     pub rpc_url: String,
+    /// WebSocket URL. If left empty, derived automatically from rpc_url
+    /// (https:// → wss://, http:// → ws://). Only set this if your provider
+    /// uses a different WebSocket host.
+    #[serde(default)]
     pub ws_url: String,
     // Reserved for future commitment-level policy
     #[serde(default = "default_commitment")]
